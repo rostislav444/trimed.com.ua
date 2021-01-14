@@ -1,0 +1,297 @@
+.profile {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    grid-gap: 48px;
+}
+.profile .hdng {
+    margin-top: 0;
+}
+.profile .navigation {
+    position: relative;
+    display: grid;
+    grid-gap: 16px;
+    background-color: var(--clr-1-25);
+    border-radius: 16px;
+    padding: 16px;
+    min-height: 240px;
+}
+.profile .navigation li {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    grid-gap: 32px;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 16px;
+    border-radius: 16px;
+}
+.profile .navigation li:hover {
+    background-color: var(--clr-1-50);
+}
+.profile .navigation li img {
+    position: relative;
+    display: block;
+    width: 32px;
+    height: 32px;
+}
+.profile .navigation li .email {
+    color: gray;
+    font-size: var(--h6);
+}
+
+.profile .data .forms > ul {
+    display: grid;
+    grid-gap: 24px;
+    margin-bottom: 24px;
+}
+.profile .data .forms > ul > li > input[type="checkbox"] {
+    display: none;
+}
+.profile .data ul .title1,
+.profile .data ul .title2 {
+    color: var(--clr-2);
+    margin-bottom: 0;
+}
+.profile .data .forms > ul > li {
+    position: relative;
+    display: grid;
+    grid-gap: 24px;
+    padding: 24px;
+    border-radius: 16px;
+    border: 2px solid var(--grey-light);
+}
+.profile .data .forms ul li input[type="date"],
+.profile .data .forms ul li input[type="password"],
+.profile .data .forms ul li input[type="text"], 
+.profile .data .forms ul li select {
+    padding: 0 16px;
+    height: 48px;
+}
+.profile .data .forms ul li input[type="date"],
+.profile .data .forms ul li input[type="password"],
+.profile .data .forms ul li input[type="text"] {
+    width: calc(100% - 32px);
+}
+.profile .data .forms ul li select {
+    width: 100%;
+}
+.profile .data .forms ul li .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.profile .data .forms ul li .heading label {
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.profile .data .forms ul li .heading label img {
+    width: 16px;
+    height: 16px;
+    margin-right: 16px;
+    margin-top: -4px;
+}
+.profile .data .forms ul li .heading label span.checked {
+    display: none;
+}
+
+.profile .data .forms ul li .heading label:hover span {
+    color: var(--clr-1);
+}
+
+
+
+.profile .data .forms ul li .form .fields {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+@media(max-width: 1200px) {
+    .profile .data .forms ul li .form .fields {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+@media(max-width: 960px) {
+    .profile .data .forms ul li .form .fields {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+}
+
+
+.profile .data .forms .delivery_adress .form.select_adress .fields {
+    grid-template-columns: 1fr;
+}
+.profile .data .forms .delivery_adress .form .fields {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.profile .data .forms ul li .form .fields label {
+    position: relative;
+    display: block;
+    margin-bottom: 12px;
+    font-size: var(--h6);
+    color: grey;
+}
+
+
+/* STATE */
+.profile .data .forms ul li .form input[type="date"],
+.profile .data .forms ul li .form input[type="email"],
+.profile .data .forms ul li .form input[type="text"],
+.profile .data .forms ul li .form select {
+    padding: 0;
+    box-shadow: none ;
+    height: 32px;
+    pointer-events: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+.profile .data .forms ul li .form button {
+    display: none;
+}
+.profile .data .forms ul li .form .errorlist {
+    font-size: var(--h6);
+}
+.profile .data .forms .title {
+    margin-bottom: 24px;
+    font-weight: 700;
+}
+
+/* FORMSET */
+.formset {
+    display: grid;
+    grid-gap: 40px;
+}
+.empty {
+    display: none;
+}
+form.form .DELETE {
+    display: none;
+}
+
+.profile .data .forms.user_password_change form input[type="text"],
+.profile .data .forms.user_password_change form input[type="password"],
+.profile .data .forms > ul > li > input[type="checkbox"]:checked ~ .form input[type="date"],
+.profile .data .forms > ul > li > input[type="checkbox"]:checked ~ .form input[type="email"],
+.profile .data .forms > ul > li > input[type="checkbox"]:checked ~ .form input[type="text"],
+.profile .data .forms > ul > li > input[type="checkbox"]:checked ~ .form select {
+    padding: 0px 16px;
+    box-shadow: inset 0 0 0 2px var(--clr-1-50);
+    height: 48px;
+    pointer-events: all;
+    -webkit-appearance: unset;
+    -moz-appearance: unset;
+}
+.profile .data .forms > ul > li > input[type="checkbox"]:checked ~ .heading label span.unchecked {
+    display: none;
+}
+.profile .data .forms.user_password_change .form button,
+.profile .data .forms > ul > li > input[type="checkbox"]:checked ~ form.form .DELETE,
+.profile .data .forms > ul > li > input[type="checkbox"]:checked ~ form .empty,
+.profile .data .forms > ul > li > input[type="checkbox"]:checked ~ .heading label span.checked,
+.profile .data .forms > ul > li > input[type="checkbox"]:checked ~ .form button {
+    display: block !important;
+}
+
+
+/* WISHLIST */
+.profile .data .user__wishlist .list .wishlist_products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.profile .data .user__wishlist .list .wishlist_products > p {
+    grid-column-start: 1;
+    grid-column-end: -1;
+}
+
+/* END WISHLIST */
+
+.user__subscribe .list ul {
+    position: relative;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-gap: 16px;
+}
+.user__subscribe .list ul li {
+    position: relative;
+    display: block;
+    border-radius: 8px;
+    border: 2px solid var(--grey-light);
+    
+}
+.user__subscribe .list ul li label {
+    position: relative;
+    display: block;
+    padding: 16px;
+    cursor: pointer;
+}
+.user__subscribe input[name="subscription-0-DELETE"],
+.company__info .DELETE {
+    display: none;
+}
+
+.reviews ul {
+    display: grid !important;
+}
+
+.user__comments ul div.product {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    grid-gap: 24px;
+    align-items: center;
+    margin-bottom: 16px;
+    margin-top: 16px;
+   
+}
+.user__comments ul div.product .image {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding-top: 100%;
+}
+.user__comments ul div.product .image img {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    top: 0;
+}
+
+.profile .data .forms .form .old_password {
+    grid-column-start: 1;
+    grid-column-end: -1;
+}
+
+@media(max-width: 960px) {
+    .profile {
+        grid-template-columns: 56px 1fr; 
+        grid-gap: 16px;
+    }
+
+    .profile ul.navigation {
+        padding: 0px;
+        grid-gap: 8px;
+    }
+    .profile ul.navigation li {
+        grid-template-columns: 32px;
+        padding: 16px 12px;
+    }
+  
+    .profile ul.navigation li > p {
+        display: none;
+    }
+
+    .profile .data .forms ul li .heading {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+    .profile .data .forms ul li .heading .title2 {
+        margin-bottom: 12px;
+    }
+    .profile .data .forms .delivery_adress .form .fields {
+        grid-template-columns: 1fr;
+    }
+
+}

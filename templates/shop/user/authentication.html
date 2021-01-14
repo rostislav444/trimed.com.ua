@@ -1,0 +1,73 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block links %}
+ 
+<link rel="stylesheet" href="{% static 'css/shop/user/authentication.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="authentication">
+    <div class="content">
+        <div class="data">
+            <input type="radio" id="authentication_login"        name="authentication" {% if page == 'login' or page == '' or not page %}checked{% endif %}>
+            <input type="radio" id="authentication_registration" name="authentication" {% if page == 'registration' %}checked{% endif %}>
+            <div class="navigation">
+                <a 
+                    href="{% url 'user:authentication' page='login' %}"
+                    data-id="authentication_login" 
+                    class="auth_navigation login">
+                    <span>Вход</span>
+                </a>
+                <a 
+                    href="{% url 'user:authentication' page='registration' %}"
+                    data-id="authentication_registration" 
+                    class="auth_navigation registration">
+                    <span>Регистрация</span>
+                </a>
+            </div>
+            <div class="forms">
+                <!-- Login -->
+                <div class="form_wrapper login">
+                    <p class="title1">Аторизация на сайте</p>
+                    <form class="form" action="{% url 'user:authentication' page='login' %}{% if redirect %}?redirect={{ redirect }}{% endif %}" method="POST" xmlns="http://www.w3.org/1999/html">
+                        {% csrf_token %}
+                        <div class="fields">
+                            {{ forms.login.as_p }}
+                        </div>
+                        
+                        <button type="submit">Войти</button>
+                    </form>
+                </div>
+                <!-- Register -->
+                <div class="form_wrapper registration">
+                    <p class="title1">Регистрация нового пользователя</p>
+                    <form class="form"  action="{% url 'user:authentication' page='registration' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="fields">
+                            {{ forms.registration.as_p }}
+                        </div>
+                        <button type="submit">Зарегестрироватся</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+
+for (let a of document.querySelectorAll('.auth_navigation')) {
+    a.onclick = (e) => {
+        e.preventDefault()
+        input = document.getElementById(a.dataset.id) 
+        input.checked = true;
+        window.history.replaceState('','', a.href);
+    }
+}
+
+
+</script>
+{% endblock %}

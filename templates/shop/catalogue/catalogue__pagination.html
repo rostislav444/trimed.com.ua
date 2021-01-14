@@ -1,0 +1,19 @@
+{% if pages.total > 1 %}
+<span data-page="{{ pages.current }}" data-pages="{{ pages.last }}"  class="step-links">
+    <span>Страница: {{ pages.current }}</span>
+    <a class="pagiantion_link {% if not pages.previous %}disabled{% endif %}" href="{% if pages.current > 2 %}{{ pages.previous }}{% else %}{{ pages.first }}{% endif %}"><</a>
+    <a class="pagiantion_link {% if not pages.next %}disabled{% endif %}" href="{{ pages.next }}">></a>
+    <span>|</span>
+    <a class="pagiantion_link {% if pages.current == 1 %}disabled{% endif %}" href="{{ pages.first }}">1</a>
+    {% if pages.middle.first > 3 %}
+        <span>...</span>
+    {% endif %}
+    {% for page in pages.middle.pages %}
+        <a class="pagiantion_link {% if pages.current == page.num %}active{% endif %}" href="{{ page.url }}">{{ page.num }}</a>
+    {% endfor %}
+    {% if pages.middle.last < pages.middle.max %}
+        <span>...</span>
+    {% endif %}
+    <a class="pagiantion_link {% if pages.current == pages.total %}active{% endif %} {% if pages.current == pages.total %}disabled{% endif %}" href="{{ pages.last }}">{{ pages.total }}</a>
+</span>
+{% endif  %}

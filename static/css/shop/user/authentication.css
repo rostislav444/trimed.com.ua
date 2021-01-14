@@ -1,0 +1,98 @@
+.authentication .content {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 80px;
+    min-height: 80vh;
+}
+.authentication .content .data > input[type="radio"] {
+    display: none;
+}
+.authentication .content .data .navigation {
+    position: relative;
+    display: grid;
+    height: 48px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    overflow: hidden;
+    background-color: var(--grey-light);
+    grid-template-columns: repeat(2,1fr);
+}
+.authentication .content .data .navigation a {
+    position: relative;
+    padding: 0 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: grey;
+    font-size: var(--h4);
+    cursor: pointer;
+}
+
+.authentication .content .forms {
+    width: 480px;
+    max-width: calc(100vw - 64px);
+    padding: 32px;
+    background-color: var(--clr-1-50);
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    /* border-top-right-radius: 16px; */
+}
+.authentication .content .forms .form_wrapper {
+    display: none;
+}
+
+.authentication input#authentication_login:checked ~ .forms .login,
+.authentication input#authentication_registration:checked ~ .forms .registration {
+    display: block;
+}
+.authentication input#authentication_login:checked ~ .navigation a.login,
+.authentication input#authentication_registration:checked ~ .navigation a.registration {
+    background-color: #a5e8f9;
+    color: var(--clr-2);
+}
+.authentication .content .data .navigation label:hover {
+    background-color: var(--clr-1-50) !important;
+    color: var(--clr-1-drk) !important;
+}
+.authentication .form ul {
+    display: grid;
+    grid-gap: 8px;
+    padding-left: 24px;
+}
+.authentication .form .helptext {
+    display: block;
+    padding-top: 12px;
+}
+.authentication .form .helptext,
+.authentication .form ul li {
+    position: relative;
+    font-size: var(--h6);
+    line-height: 1.5;
+    color: var(--clr-2);
+}
+.authentication .form ul li::before {
+    content: "";
+    position: absolute;
+    display: block;
+    left: -22px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--clr-1);
+    top: 6px;
+}
+.authentication .form ul.errorlist li {
+    color: rgb(255, 0, 64);
+}
+.authentication .form ul.errorlist li::before {
+    background-color:  rgb(255, 0, 64);
+}
+
+
+.authentication .form p:empty,
+.authentication .form span:empty {
+    display: none;
+}

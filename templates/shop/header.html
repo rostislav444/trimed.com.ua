@@ -1,0 +1,84 @@
+{% load static %}{% load i18n %}<header>
+    <div class="content first-line">
+        <div class="mobile_burger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <a class="logo" href="{% url 'shop:home' %}">
+            <img src="{% static 'img/logo.png' %}" alt="TRIMED" class="logo">
+        </a>
+        {% include 'shop/header__menu.html' %}
+        <div class="phone">
+            <a href="tel:+0800000000">
+                <img src="{% static 'img/icons/phone-call.png' %}" alt="phone">
+                <span>0 800 000 000</span>
+            </a>
+        </div>
+        <div class="user">
+            <a class="image" href="{% if user.is_authenticated %}{% url 'user:user_data' %}{% else %}{% url 'user:authentication' 'login' %}{% endif %}">
+                <img src="{% static 'img/icons/user.png' %}" alt="phone">
+            </a>
+            <div class="data">
+                <p class="greeting">Здравствуйте, {% if user.is_authenticated %} {{ user.name }}{% endif %}</p>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'user:user_data' %}">{% trans 'Личный кабинет' %}</a>
+                {% else %}
+                    <p>
+                        <a href="{% url 'user:authentication' 'login' %}">{% trans 'Вход' %}</a>
+                        <span>/</span>
+                        <a href="{% url 'user:authentication' 'registration' %}">{% trans 'Регистрация' %}</a>
+                    </p>
+                {% endif %}
+            </div>
+           
+        </div>
+        <a class="icon cart">
+            <img src="{% static 'img/icons/cart-blue.png' %}" alt="">
+            <p class="quantity cart_quantity {% if cart.quantity > 0 %}active{% endif %}">{{ cart.quantity }}</p>
+        </a>
+      
+        
+    </div>
+    <div class="second-line">
+        <div class="content">
+            <div class="catalogue">
+                <div class="burger ">
+                    <div class="lines">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <p>Каталог</p>
+                </div>
+                {% include 'shop/nav-menu.html' %}
+                
+            </div>
+            <div class="slash"></div>
+            <div class="language">
+                <select name="language" id="">
+                    {% for language in languages %}
+                        <option value="{{ language.path }}" {% if language.active %}selected{% endif %}>{{ language.code }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <form class="search" action="">
+                <input type="search" placeholder="Поиск товаров на сайте ">
+            </form>
+            <div class="icon actions">
+                <a href="{% url 'shop:comparison' %}" class="icon compare">
+                    <img src="{% static 'img/icons/compare.png' %}" alt="">
+                    <p class="quantity {% if comparelist_len > 0 %}active{% endif %}">{{ comparelist_len }}</p>
+                </a>
+                <a class="icon wishlist">
+                    <img src="{% static 'img/icons/wishlist.png' %}" alt="">
+                    <p class="quantity {% if wishlist|length %}active{% endif %}">{{ wishlist|length }}</p>
+                </a>
+                <a class="icon cart">
+                    <img src="{% static 'img/icons/cart.png' %}" alt="">
+                    <p class="quantity cart_quantity {% if cart.quantity > 0 %}active{% endif %}">{{ cart.quantity }}</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>

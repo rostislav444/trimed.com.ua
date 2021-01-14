@@ -1,0 +1,23 @@
+{% if category %}
+    {% if category.get_children|length %}
+        <ul class="categories">
+            {% for c in category.get_children %}
+                {% if c.products_count > 0 %}
+                    <a href="{{ c.get_absolute_url }}">
+                        <li>{{ c.name }} <span>{{c.products_count}}</span></li>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% else %}
+    <ul class="categories">
+        {% for c in root_categories %}
+            {% if c.products_count > 0 %}
+                <a href="{{ c.get_absolute_url }}">
+                    <li>{{ c.name }} <span>{{c.products_count}}</span></li>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endif %}

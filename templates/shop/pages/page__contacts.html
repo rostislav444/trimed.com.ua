@@ -1,0 +1,87 @@
+{% extends 'shop/base.html' %}{% load i18n %}{% load static %}
+
+{% block links %}
+   <link rel="stylesheet" href="{% static 'css/shop/pages/page__contacts.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <!-- BREADCRUMBS -->
+    <div class="breadcrumbs">
+        <a href="/">
+            <img src="{% static 'img/icons/home.png' %}" alt="home-page">
+        </a>
+        <span class="slash">/</span>
+        <p>{{ page.title }}</p>
+    </div>
+
+    <!-- TITLE -->
+    <p class="hdng">
+        {{ page.trans.title }}
+    </p>
+
+    <div class="page__contacts">
+        <div class="info__wrapper">
+            <div class="info">
+                <p class="title title2">{% trans 'Контактная информация' %}</p>
+                <p class="text">{% trans 'Заполните форму и наша команда свяжется с Вами в течении 20 мин.' %}</p>
+                <ul>
+                    <li>
+                        <img src="{% static 'img/icons/phone.png' %}" alt="">
+                        <span>
+                            <a href="tel:{{ page.phone }}">{{ maindata.phone }}</a>
+                        </span>
+                    </li>
+                    <li>
+                        <img src="{% static 'img/icons/email.png' %}" alt="">
+                        <span>
+                            <a href="mail:{{ page.email }}">{{ maindata.email }}</a>
+                        </span>
+                    </li>
+                    <li>
+                        <img src="{% static 'img/icons/geo.png' %}" alt="">
+                        <span>
+                            <a href="">{{ maindata.adress }}</a>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="constct__form">
+            {% if form_valid %}
+                <p class="title1">Спасибо за Ваше обращение. Мы скоро с Вами свяжемся</p>
+            {% else %}
+                <form action="{% url 'pages:contacts' %}" method="POST" class="form" id="contact_form">
+                    {% csrf_token %}
+                    <div class="fields">
+                        {% for field in form %}
+                        <div>
+                            {{ field.errors }}
+                            {{ field }}
+                        </div>
+                           
+                        {% endfor %}
+                    </div>
+                    <button class="g-recaptcha" 
+                        data-sitekey="reCAPTCHA_site_key" 
+                        data-callback='onSubmit' 
+                        data-action='submit'>Отправить</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block js %}
+<!-- <script src="https://www.google.com/recaptcha/api.js"></script>
+<script>
+    function onSubmit(token) {
+      document.getElementById("contact_form").submit();
+    }
+</script> -->
+
+{% endblock %}

@@ -1,0 +1,189 @@
+{% extends 'shop/base.html' %}{% load i18n %}{% load static %}
+
+<!-- META TITLE-->
+{% block meta_title %}{% trans 'Главная страница' %}{% endblock %}
+<!-- META DESCRIPTION-->
+{% block meta_description %}{% trans 'Интерент магазин медицинских товаров' %}{% endblock %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/shop/home.css' %}">
+{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+<div class="home">
+    <div class="slider content">
+        <!-- Slider main container -->
+        <div class="swiper-container home-slider">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                {% for banner in banners %}
+                    <div class="swiper-slide slide" style="background-image: url({{ banner.image_thmb.l.path }});">
+                        <div class="data">
+                            <div class="text">
+                                {% if banner.title %}
+                                    <p class="heading">{{ banner.title }}</p>
+                                {% endif %}
+                                {% if banner.text %}
+                                    <p class="description h3">{{ banner.text }}</p>
+                                {% endif %}
+                            </div>
+                            {% if banner.link %}
+                                <a href="{{ banner.link }}" class="link">Ссылка</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- If we need navigation buttons -->
+            <div class="navigation">
+                <div class="nav-btn-prev nav-btn">
+                    <img src="{% static 'img/icons/arrow-white-left.png' %}" alt="<">
+                </div>
+                <div class="nav-btn-next nav-btn">
+                    <img src="{% static 'img/icons/arrow-white-right.png' %}" alt=">">
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if popular_categories|length %}
+        <div class="popular-categories content">
+            <p class="hdng">Популярные категории</p>
+            <ul class="popular-categories__list">
+                {% for category in popular_categories %}
+                    <a href="{{ category.category.get_absolute_url }}">
+                        <li>
+                            <p>{{ category.category.name }}</p>
+                            <img src="{{ category.image_thmb.l.path }}" alt="{{ category.category.name }}">
+                        </li>
+                    </a>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- OFFER SALE PRODUCTS -->
+    <div class="products_slider products-discount content">
+        <div class="heading">
+            <p class="hdng">Товары со скидкой</p>
+            <div class="navigation">
+                <div class="offer_sale-btn-prev nav-btn">
+                    <img src="{% static 'img/icons/arrow-white-left.png' %}" alt="<">
+                </div>
+                <div class="offer_sale-btn-next nav-btn">
+                    <img src="{% static 'img/icons/arrow-white-right.png' %}" alt=">">
+                </div>
+            </div>
+        </div>
+        <div class="offer offer_sale swiper-container">
+            <div class="swiper-wrapper products_slider_list">
+                {% for product in offer.sale %}
+                    <div class="swiper-slide">
+                        {% include 'shop/catalogue/catalogue__product.html' %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+     <!-- OFFER SALE PRODUCTS -->
+     <div class="products_slider products-discount content">
+        <div class="heading">
+            <p class="hdng">ТОП продаж</p>
+            <div class="navigation">
+                <div class="offer_sale-btn-prev nav-btn">
+                    <img src="{% static 'img/icons/arrow-white-left.png' %}" alt="<">
+                </div>
+                <div class="offer_sale-btn-next nav-btn">
+                    <img src="{% static 'img/icons/arrow-white-right.png' %}" alt=">">
+                </div>
+            </div>
+        </div>
+        <div class="offer offer_sale swiper-container">
+            <div class="swiper-wrapper products_slider_list">
+                {% for product in offer.popular %}
+                    <div class="swiper-slide">
+                        {% include 'shop/catalogue/catalogue__product.html' %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- CONSULTATION -->
+    {% include 'shop/home/home__consultation.html' %}
+
+    <!-- NEWS -->
+    {% include 'shop/home/home__news.html' %}
+
+
+</div>
+{% endblock %}
+
+{% block last %}
+    <!-- SEO TEXT -->
+    <div class="seo_text">
+        <div class="content">
+            <p class="title1">О магазине TRIMED</p>
+            <div class="richtext">
+                {{ maindata.seo_text|safe }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+<!-- JS -->
+{% block js %}
+<script src="https://unpkg.com/imask"></script>
+<script>
+    var element = document.querySelector('input.consultation');
+    var maskOptions = {
+        mask: '+{38}(000) 000-00-00'
+    };
+    var mask = IMask(element, maskOptions);
+</script>
+<script>
+    var homeSlider = new Swiper('.home-slider', {
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination',
+        },
+        navigation: {
+            nextEl: '.nav-btn-next',
+            prevEl: '.nav-btn-prev',
+        },
+    })
+</script>
+
+<script>
+
+    for (let productsSlider of document.querySelectorAll('.products_slider')) {
+        let offerSlider = new Swiper(productsSlider.querySelector('.offer'), {
+            loop: false,
+            slidesPerView: 5,
+            slidesPerGroup: 1,
+            spaceBetween: 2,
+            height: 'auto',
+            navigation: {
+                nextEl: productsSlider.querySelector('.offer_sale-btn-next'),
+                prevEl: productsSlider.querySelector('.offer_sale-btn-prev'),
+            },
+            breakpoints: {
+                0:    { slidesPerView: 2, },
+                480:  { slidesPerView: 2, },
+                720:  { slidesPerView: 3, },
+                1200: { slidesPerView: 4, },
+                1400: { slidesPerView: 5, }
+            }
+        
+        })
+    }
+
+     
+
+</script>
+{% endblock %}

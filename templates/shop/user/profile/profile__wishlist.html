@@ -1,0 +1,10 @@
+{% extends './profile.html' %}
+{% load static %}
+{% block profile %}
+<div class="user__wishlist">
+    <p class="title1">Список желаний</p>
+    <div class="list wishlist__body">
+        {% include 'shop/additions/whishlist/wishlist__body.html' %}
+    </div>
+</div>
+{% endblock %}

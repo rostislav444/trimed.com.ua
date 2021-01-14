@@ -1,0 +1,66 @@
+{% extends './profile.html' %}
+{% load static %}
+{% block profile %}
+<div class="user__orders">
+    <p class="title1">Мои заказы</p>
+    <ul class="orders">
+        <li class="heading_wrapper">
+            <div class="heading">
+                <p>Статус заказа</p>
+                <p>Тип доставки</p>
+                <p>Сумма</p>
+                <p class="date">Время заказа</p>
+            </div>
+           
+            
+        </li>
+        {% for order in request.user.orders.all %}
+            <li>
+                <div class="heading">
+                    <p>{{ order.get_status_display }}</p>
+                    <p>{{ order.get_pay_type_display }}</p>
+                    <p>{{ order.get_total }} грн</p>
+                    <p class="date">{{ order.created }}</p>
+                </div>
+                <p class="bold">Товары в заказе</p>
+                <div class="products__list">
+                    {% for item in order.products.all %}
+                        {% with product=item.product %}
+                            <div class="catalogue__product">
+                                <div class="image">
+                                    <a href="{{ product.get_absolute_url }}">
+                                        <img src="{{ product.images.all.0.image_thmb.l.path }}" alt="">
+                                    </a>
+                                </div>
+                                <div class="info">
+                                    <div class="top">
+                                        {% if product.reviews.all|length %}
+                                            <div class="reviews">
+                                                <div class="stars">
+                                                    <img src="{% static 'img/icons/star.png' %}" alt="*">
+                                                    <img src="{% static 'img/icons/star.png' %}" alt="*">
+                                                    <img src="{% static 'img/icons/star.png' %}" alt="*">
+                                                    <img src="{% static 'img/icons/star.png' %}" alt="*">
+                                                    <img src="{% static 'img/icons/star.png' %}" alt="*">
+                                                </div>
+                                                <p>3 отзыва</p>
+                                            </div>
+                                        {% endif %}
+                                        <p class="code">код: <span>{{ product.code }}</span></p>
+                                        
+                                    </div>
+                                    <p class="name">{{ product.name }}</p>
+                                    <p class="quantity">{{ item.quantity }} шт. * {{ item.price_ua }} грн.</p>
+                                    
+                                </div>
+                            </div>
+                        {% endwith %}
+                    {% endfor %}
+                </div>
+                
+            </li>
+        {% endfor %}
+    </ul>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+<ul>
+    {% for characteristic in product.characteristics.all %}
+        <li>
+            <p><span>{{ characteristic.name }}</span></p>
+            <p>{{ characteristic.description }}</p>
+        </li>
+    {% endfor %}
+    {% for attr in product.product_attrs.all %}
+        <li>
+            <p><span>{{ attr.attribute.attribute.name }}</span></p>
+            <p> 
+                {% for attr_value in attr.value.all %}
+                    <span>{{ attr_value }}{% if forloop.counter < attr.value.all|length %},{% endif %}</span> 
+                {% endfor %}
+            </p>
+        </li>
+    {% endfor %}
+</ul>

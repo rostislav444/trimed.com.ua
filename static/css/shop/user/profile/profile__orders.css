@@ -1,0 +1,60 @@
+.user__orders ul.orders {
+    display: grid;
+    grid-gap: 32px;
+}
+.user__orders ul.orders li {
+    display: grid;
+    border: 2px solid var(--grey-light);
+    grid-gap: 24px;
+    border-radius: 16px;
+    padding: 24px;
+}
+.user__orders ul.orders li:first-child .heading {
+    font-weight: 600;
+}
+.user__orders ul.orders li .heading {
+    display: grid;
+    grid-template-columns: 240px 240px 120px 1fr;
+    border-radius: 16px;
+}
+.user__orders ul.orders li .heading .date {
+    text-align: right;
+    color: var(--clr-2);
+    font-size: var(--h6);
+}
+.user__orders ul.orders li .products__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    align-items: center;
+}
+.user__orders ul.orders li .products__list {
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #eeeeee75;
+    border: 2px solid  var(--grey-light);
+}
+
+.user__orders ul.orders li .products__list .catalogue__product .info .name {
+    min-height: auto;
+}
+.user__orders ul.orders li .products__list .catalogue__product .info .quantity {
+    color: grey;
+    font-size: var(--h6);
+}
+
+@media(max-width: 960px) {
+    .user__orders ul.orders li .heading{
+        grid-template-columns: 1fr;
+        grid-gap: 8px;
+    }
+    .profile_data ul.orders li.heading_wrapper {
+        display: none;
+    }
+    .user__orders ul.orders li {
+        padding: 16px;
+    }
+    .user__orders ul.orders li .heading .date {
+        text-align: left;
+    }
+    
+}

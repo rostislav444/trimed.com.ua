@@ -1,0 +1,154 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/shop/order/order.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="breadcrumbs">
+            <a href="/">
+                <img src="{% static 'img/icons/home.png' %}" alt="home-page">
+            </a>
+            <span class="slash">/</span>
+            <p>Оформление заказа</p>
+        </div>    
+    </div>
+    <div class="content">
+        <div class="order_page">
+            <p class="hdng">Оформление заказа</p>
+            <p class="title2">Список товаров</p>
+            {% include 'shop/order/order__products_list.html' %}
+            <form class="form submit" action="{% url 'order:order' %}" method="POST">
+                {% csrf_token %}
+                <div class="personal__info">
+                    <p class="title2">Персональная информация</p>
+                    <div class="fields">
+                        <div>
+                            <label for="">Имя</label>
+                            <p>
+                                <input type="text" name="name" value="{{ request.user.name }}" required>
+                            </p>
+                        </div>
+                        <div>
+                            <label for="">Фамилия</label>
+                            <p>
+                                <input type="text" name="surname" value="{{ request.user.surname }}" required>
+                            </p>
+                        </div>
+                        <div>
+                            <label for="">Отчество</label>
+                            <p>
+                                <input type="text" name="patronymic" value="{{ request.user.patronymic }}" required>
+                            </p>
+                        </div>
+                        <div>
+                            <label for="">Телефон</label>
+                            <p>
+                                <input type="text" name="phone" value="{{ request.user.phone }}" required>
+                            </p>
+                        </div>
+                        <div>
+                            <label for="">Email (для квитанции)</label>
+                            <p>
+                                <input type="email" name="email" value="{{ request.user.email }}" required>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="delivey">
+                    <p class="title2">Доставка и полата</p>
+                    <div class="fields">
+                        <input type="radio" name="delivery" id="delivery__new_post" value="newpost" {% if delivery == 'newpost' or delivery == None %}checked{% endif %}>
+                        <input type="radio" name="delivery" id="delivery__curier"   value="curier"  {% if delivery == 'curier' %}checked{% endif %}>
+        
+                        <div>
+                            <label>Способ доставки</label>
+                            <div class="delivery_types label_radios">
+                                <a 
+                                    class="delivery_type_link" 
+                                    href="{% url 'order:order' delivery='newpost' %}"
+                                    data-api="{% url 'order:order_api' delivery='newpost' %}" 
+                                    data-form="newpost" 
+                                    data-id="delivery__new_post">
+                                    <img src="{% static 'img/newpost.png' %}" alt="Новая почта">
+                                    <p>Новая почта</p>
+                                </a>
+                                <a 
+                                    class="delivery_type_link" 
+                                    href="{% url 'order:order' delivery='curier' %}" 
+                                    data-api="{% url 'order:order_api' delivery='curier' %}" 
+                                    data-form="curier" 
+                                    data-id="delivery__curier">
+                                    <img src="{% static 'img/courier.png' %}" alt="Курьером">
+                                    <p>Курьером</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="delivery_type_wrapper">
+                            {% if delivery == 'newpost' or delivery == None %}
+                                {% include 'shop/order/delivery/delivery__newpost.html' %}
+                            {% else %}
+                                {% include 'shop/order/delivery/delivery__curier.html' %}
+                            {% endif %}
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="order_button grid-hd">
+                    <button type="submit">Оформить заказ</button>
+                </div>
+                
+            </form>
+            
+        </div>
+    </div>
+    
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        var forms = {
+            newpost : undefined,
+            curier : undefined,
+        }
+        const deliveryTypeLinks = document.querySelectorAll('.delivery_type_link') 
+        const deliveryTypeWrapper = document.querySelector('.delivery_type_wrapper')
+
+        
+        function curierTplUpdate(link, select) {
+            let response = XHR_SYNC("POST", link.dataset.api, data={change_adress : select.value})
+            forms['curier'] = response['html']
+            deliveryTypeWrapper.innerHTML = forms['curier']
+            userChosenAdressChange(link)
+        }
+
+
+        function userChosenAdressChange(link) {
+            let select = document.querySelector('.user_chosen_adress') 
+            select.onchange = () => {
+                curierTplUpdate(link, select)
+            }
+        }
+
+        for (let link of deliveryTypeLinks) {
+            link.onclick = (e) => {
+                e.preventDefault()
+                let form_name = link.dataset.form
+                if (forms[form_name] == undefined) {
+                    let response = XHR_SYNC("POST", link.dataset.api)
+                    if (response != false) {
+                        forms[form_name] = response['html']
+                    } 
+                }
+                let input = document.getElementById(link.dataset.id)
+                input.checked = true
+                deliveryTypeWrapper.innerHTML = forms[form_name]
+                if (form_name == 'curier') { userChosenAdressChange(link) }
+            }
+        }
+    </script>
+
+{% endblock %}

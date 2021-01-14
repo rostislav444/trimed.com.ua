@@ -1,0 +1,60 @@
+<div class="page page_description product_data_block_1">
+    <div class="main">
+        <div class="description">
+            <p class="title2">Описание</p>
+            <div class="reichtext">{{ product.description|safe }}</div>
+        </div>
+        <div class="characteristics">
+            <p class="title2">Характеристики</p>
+           {% include 'shop/product/components/characteristics.html' %}
+        </div>
+        {% if product.certificates.all|length %}
+            <div class="certificates">
+                <p class="title2">Сертификаты</p>
+                <ul>
+                    {% for certificate in product.certificates.all %}
+                        <a href="{{ certificate.file.url }}">
+                            <li>
+                                <p>{{ certificate.name }}</p>
+                            </li>
+                        </a>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+    <div class="reviews">
+        <input type="radio" name='review_action' id="product_reviews" checked>
+        <input type="radio" name='review_action' id="product_questions">
+        <div class="navigation">
+            <label for="product_reviews" class="product_reviews">
+                <div class="checkbox"></div>
+                <span>Отзывы</span>
+            </label>
+            <label for="product_questions" class="product_questions">
+                <div class="checkbox"></div>
+                <span>Вопросы</span>
+            </label>
+            <div class="button_wrapper">
+                <a 
+                    href="{% url 'shop:product' product.slug product.pk 'comments' %}" 
+                    data-id="product_data_block_3"
+                    class="product_data_block">
+                    <button class="product_reviews">Отсавить отзыв</button>
+                </a>
+                <a 
+                    href="{% url 'shop:product' product.slug product.pk 'questions' %}" 
+                    data-id="product_data_block_4"
+                    class="product_data_block">
+                    <button class="product_questions">Задать вопрос</button>
+                </a>
+                
+                
+            </div>
+        </div>
+        {% include 'shop/product/components/comments__list__preview.html' %}
+        {% include 'shop/product/components/questions__list__preview.html' %}
+    </div>
+    
+    
+</div>

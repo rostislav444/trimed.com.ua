@@ -1,0 +1,19 @@
+<div class="company-news">
+    <div class="content">
+        <p class="hdng">Новости Trimed</p>
+        <ul>
+            {% for post in blog %}
+                <li>
+                    <a href="{{ post.get_absolute_url }}" class="image">
+                        <img src="{{ post.image_thmb.l.path }}" alt="{{ post.name }}">
+                    </a>
+                    <div class="data">
+                        <p class="heading">{{ post.name }}</p>
+                        <p class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laboriosam sequi obcaecati saepe praesentium laborum, voluptatum deleniti, consequuntur quod aliquid quam, facilis et repudiandae. Maiores ea adipisci excepturi incidunt magnam eum!</p>
+                        <a href="{{ post.get_absolute_url }}">Читать полностью</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

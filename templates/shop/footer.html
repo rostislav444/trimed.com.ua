@@ -1,0 +1,36 @@
+{% load static %}{% load i18n %}<footer>
+    <div class="content">
+        <div class="about">
+            <a class="logo" href="/">
+                <img src="{% static 'img/logo.png' %}" alt="TRIMED" class="logo">
+            </a>
+            <p>{{ maindata.trans.meta_descr }}</p>
+            <div class="contacts">
+                <p class="title2">{% trans 'Контакты' %}</p>
+                <ul>
+                    <li>
+                        <img src="{% static 'img/icons/phone.png' %}" alt="">
+                        <span>
+                            <a href="tel:{{ maindata.phone }}">{{ maindata.phone }}</a>
+                        </span>
+                    </li>
+                    <li>
+                        <img src="{% static 'img/icons/email.png' %}" alt="">
+                        <span>
+                            <a href="mail:{{ maindata.email }}">{{ maindata.email }}</a>
+                        </span>
+                    </li>
+                    <li>
+                        <img src="{% static 'img/icons/geo.png' %}" alt="">
+                        <span>
+                            <a href="">{{ maindata.trans.adress }}</a>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="pages">
+            {% include 'shop/header__menu.html' %}
+        </div>
+    </div>
+</footer>

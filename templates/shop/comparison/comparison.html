@@ -1,0 +1,95 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/shop/comparison/comparison.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="breadcrumbs ">
+        <a href="/">
+            <img src="{% static 'img/icons/home.png' %}" alt="home-page">
+        </a>
+        <span class="slash">/</span>
+        <p>Сравнение товаров</p>
+    </div>   
+</div>
+<div class="comparison content">
+    <p class="hdng">Сравнение товаров</p>
+    {% if products|length %}
+        <div class="zui-wrapper">
+            <div class="zui-scroller">
+                <table class="zui-table">
+                    <thead>
+                        <tr class="image">
+                            <td class="zui-sticky-col"></td>
+                            {% for product in products %}
+                                <td>
+                                    <a href="{{ product.get_absolute_url }}">
+                                        <img src="{{ product.get_image }}" alt="{{ product.name }} + {{ product.code }}">
+                                    </a>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        <tr class="bold underline">
+                            <td class="zui-sticky-col">Название</td>
+                            {% for product in products %}
+                                <td><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td class="zui-sticky-col">Артикул</td>
+                            {% for product in products %}
+                                <td>{{ product.code }}</td>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="price">
+                            <td class="zui-sticky-col ">Цена</td>
+                            {% for product in products %}
+                                <td>{{ product.price_ua }} грн.</td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td class="zui-sticky-col">Категория</td>
+                            {% for product in products %}
+                                <td>{{ product.category.name }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% for attr in data %}
+                            <tr>
+                                <td class="zui-sticky-col">{{ attr.key }}</td>
+                                {% for value in attr.values %}
+                                    <td>{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        <tr class="remove">
+                            <td class="zui-sticky-col ">Удалить из сравнения</td>
+                            {% for product in products %}
+                                <td>
+                                    <form action="{% url 'shop:comparison-remove' %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="product_id" value="{{ product.pk }}">
+                                        <button type="submit">X</button>
+                                    </form>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <a class="clear" href="{% url 'shop:comparison-clear' %}">Очистить сравнение</a>
+    {% else %}
+        <p>Вы пока ничего не добавили в сравнение</p>
+    {% endif %}
+    
+</div>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

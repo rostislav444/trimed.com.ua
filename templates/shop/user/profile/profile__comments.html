@@ -1,0 +1,24 @@
+{% extends './profile.html' %}
+{% load static %}
+
+{% block profile %}
+<div class="user__comments reviews">
+    <p class="title1">Мои комментарии</p>
+    <ul class="product_reviews">
+        {% for comment in user.comments.all %}
+            <div class="product">
+                <a href="{{ comment.product.get_absolute_url }}" class="image">
+                    <img src="{{ comment.product.get_image }}" alt="">
+                </a>
+                <div class="data">
+                    <a href="{{ comment.product.get_absolute_url }}">
+                        <p class="bold">{{ comment.product.name }} {{ comment.product.code }}</p>
+                    </a>
+                    <p class="price">{{ comment.product.price_ua }} грн.</p>
+                </div>
+            </div>
+            {% include 'shop/product/components/comment.html' %}
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% load static %}
+<div class="consulatation">
+    <div class="content">
+        <div class="data">
+            <p class="heading">Нужна консультация?</p>
+            <p class="description">Оставьте свой номер телефона и наши специалисты проконсультируют Вас по любому вопросу</p>
+            <form class="consultation_form" action="{% url 'shop:home' %}" data-action="{% url 'shop:home' api='api' %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="consultation" class="consultation" placeholder="+38(000) 000-00-00">
+                <button>Отправить</button>
+            </form>
+        </div>
+        <div class="image">
+            <img src="{% static 'img/prety-girl.png' %}" alt="prety-girl">
+        </div>
+    </div>
+</div>
+
+<script>
+    
+
+    function ConsultationSuccess(data) {
+        alert(data['message'])
+    }
+
+    var consultationForm = document.querySelector('.consultation_form')
+    consultationForm.onsubmit = (e) => {
+        let input = consultationForm.querySelector('input.consultation')
+        
+        e.preventDefault()
+        XHR('POST', consultationForm.dataset.action, JSON.stringify({ consulatation : input.value }), func=ConsultationSuccess)
+    }
+</script>

@@ -1,0 +1,105 @@
+{% load static %}{% load i18n %}{% load mptt_tags %}<div class="zeynep mobile_menu">
+  <ul>
+    <li class="logo">
+      <a href="{% url 'shop:home' %}">
+        <img src="{% static 'img/logo.png' %}" alt="TRIMED" class="logo">
+      </a>
+      <div class="language__wrapper">
+        <select name="language" id="">
+              {% for language in languages %}
+                  <option value="{{ language.path }}" {% if language.active %}selected{% endif %}>{{ language.code }}</option>
+              {% endfor %}
+          </select>
+      </div>
+    </li>
+    <li class="user">
+        <a class="image" href="{% if user.is_authenticated %}{% else %}{% endif %}">
+            <img src="{% static 'img/icons/user.png' %}" alt="phone">
+        </a>
+        <div class="data">
+            <p class="greeting">Здравствуйте, {% if user.is_authenticated %} {{ user.name }}{% endif %}</p>
+            {% if user.is_authenticated %}
+                <a href="{% url 'user:user_data' %}">{% trans 'Войти в личный кабинет' %}</a>
+            {% else %}
+                <p>
+                    <a href="{% url 'user:authentication' 'login' %}">{% trans 'Вход' %}</a>
+                    <span>/</span>
+                    <a href="{% url 'user:authentication' 'registration' %}">{% trans 'Регистрация' %}</a>
+                </p>
+            {% endif %}
+        </div>
+    </li>
+    <li>
+      <a href="{% url 'shop:home' %}">Главная</a>
+    </li>
+    <li class="has-submenu" data-level="menu__catalogue">
+      <a href="{% url 'shop:catalogue' %}" data-submenu="menu__catalogue">{% trans 'Каталог' %}</a>
+      <div id="menu__catalogue" class="submenu">
+        <div class="submenu-header">
+          <a href="#" data-submenu-close="menu__catalogue">{% trans 'Меню' %}</a>
+        </div>
+        <label>{% trans 'Каталог' %}</label>
+        <ul>
+          {% recursetree all_categories %}
+            <li class="{% if not node.is_leaf_node %}has-submenu{% endif %}" data-level="{{ node.level }}">
+              {% if not node.is_leaf_node %}
+                <a href="{{ node.get_absolute_url }}" data-submenu="category_{{ node.slug }}">{{ node.trans.name }}</a>
+                <div id="category_{{ node.slug }}" class="submenu">
+                  <div class="submenu-header">
+                    <a href="{{ node.get_absolute_url }}" data-submenu-close="category_{{ node.slug }}">{% trans 'Каталог' %}</a>
+                  </div>
+                  <label>{{ node.trans.name }}</label>
+                  <ul>
+                    {{ children }}
+                  </ul>
+                </div>
+              {% else %}
+                <a href="{{ node.get_absolute_url }}">{{ node.trans.name }}</a>
+              {% endif %}
+            </li>
+          {% endrecursetree %}
+        </ul>
+      </div>
+    </li>
+    <!-- ABOUT -->
+    <li>
+      <a href="{% url 'pages:about' %}">{% trans 'О нас' %}</a>
+    </li>
+    <li>
+        <a href="{% url 'pages:contacts' %}">{% trans 'Контакты' %}</a>
+    </li>
+    <li>
+        <a href="{% url 'blog:blog' %}">{% trans 'Блог' %}</a>
+    </li>
+    <!-- WHOOSALE -->
+    <li class="has-submenu">
+      <a href="/" data-submenu="menu__whoosale">{% trans 'Oпт' %}</a>
+      <div id="menu__whoosale" class="submenu">
+        <div class="submenu-header">
+          <a href="#" data-submenu-close="menu__whoosale">{% trans 'Меню' %}</a>
+        </div>
+        <label>Oпт</label>
+        <ul>
+          <li><a href="/">Условия сотрудничества</a></li>
+          <li><a href="/">Регистрация партнера</a></li>
+          <li><a href="/">Поис продукции под заказа</a></li>
+        </ul>
+      </div>
+    </li>
+    <!-- FOR CLIENT -->
+    <li class="has-submenu">
+      <a href="/" data-submenu="menu__forclient">{% trans 'Покупателю' %}</a>
+      <div id="menu__forclient" class="submenu">
+        <div class="submenu-header">
+          <a href="#" data-submenu-close="menu__forclient">{% trans 'Меню' %}</a>
+        </div>
+        <label>Покупателю</label>
+        <ul>
+          <li><a href="/">{% trans 'Доставка' %}</a></li>
+          <li><a href="/">{% trans 'Оплата' %}</a></li>
+          <li><a href="/">{% trans 'Гарантия' %}</a></li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</div>

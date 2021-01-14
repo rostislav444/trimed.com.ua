@@ -1,0 +1,39 @@
+{% load static %}<li>
+    <div class="review">
+        <div class="top_block">
+            <p class="name">{{ question.user.name }}{% if question.user.surname %}&nbsp;{{ question.user.surname }}{% endif %}</p>
+            <p class="date">{{ question.created }}</p>
+        </div>
+        <div class="text">
+            {{ question.text }}
+        </div>
+        {% if not hide_heaing %}
+            <div class="footer">
+                <a class="reply__comment" href="{% url 'shop:question_reply' slug=question.product.slug product_id=question.product.id question_id=question.pk %}">Ответить</a>
+                <div class="likes">
+                    <a href="">
+                        <img src="{% static 'img/icons/cmnt-like.png' %}" alt="like">
+                    </a>
+                    <span>{{ question.likes }}</span>
+                    <a href="">
+                        <img src="{% static 'img/icons/cmnt-dislike.png' %}" alt="dislike">
+                    </a>
+                    <span>{{ question.dislikes }}</span>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    {% if question.replys.all|length %}
+    <div class="replys">
+        {% for reply in question.replys.all %}
+            <div class="reply">
+                <div class="top_block">
+                    <p class="name">{{ reply.user.name }}{% if reply.user.surname %}&nbsp;{{ reply.user.surname }}{% endif %}</p>
+                    <p class="date">{{ reply.created }}</p>
+                </div>
+                <div class="text">{{ reply.text }}</div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</li>

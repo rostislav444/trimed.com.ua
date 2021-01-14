@@ -1,0 +1,26 @@
+{% load i18n %}<ul class="menu">
+    <li>
+        <span>{% trans 'O компании' %}</span>
+        <ul>
+            <li>
+                <a href="{% url 'pages:about' %}">{% trans 'О нас' %}</a>
+            </li>
+            <li>
+                <a href="{% url 'pages:contacts' %}">{% trans 'Контакты' %}</a>
+            </li>
+            <li>
+                <a href="{% url 'blog:blog' %}">{% trans 'Блог' %}</a>
+            </li>
+        </ul>
+    </li>
+    {% for page_group in page_groups %}
+        <li>
+            <span>{{ page_group.trans.name }}</span>
+            <ul>
+                {% for page in page_group.pages.all %}
+                    <li><a href="{{ page.get_absolute_url }}">{{ page.trans.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+</ul>

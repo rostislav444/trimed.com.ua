@@ -1,0 +1,84 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block links %}
+   <link rel="stylesheet" href="{% static 'css/shop/ui/forms.css' %}">
+   <link rel="stylesheet" href="{% static 'css/shop/product/product.css' %}">
+   <link rel="stylesheet" href="{% static 'css/shop/product/product__galery.css' %}">
+   <link rel="stylesheet" href="{% static 'css/shop/product/product__descriptions.css' %}">
+   <link rel="stylesheet" href="{% static 'css/shop/product/product__comments.css' %}">
+   <link rel="stylesheet" href="{% static 'lib/swiper/swiper.min.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        {% include 'shop/product/components/breadcrumbs.html' %}
+    </div>
+    
+    <div class="product content">
+        <div class="page page_comments page_comments_reply">
+            <div class="reviews">
+                <a class="back_to_product" href="{{ comment.product.get_absolute_url }}">Назад к товару</a>
+                <p class="title2">Написать ответ на комментарий к товару: {{ comment.product.name }} {{ comment.product.code }}</p>
+                <ul class="product_reviews">
+                    {% include 'shop/product/components/comment.html' %}
+                    <div class="add_review">
+                        
+                       
+                        <form action="{% url 'shop:comment_reply' slug=comment.product.slug product_id=comment.product.id comment_id=comment.pk %}" method="POST" class="form">
+                            {% csrf_token %}
+                            <div class="fields">
+                                <textarea name="text" id="" cols="30" rows="10" placeholder="Ваш ответ" required></textarea>
+                            </div>
+                            <button type="submit">Отправить ответ</button>
+                        </form>
+                      
+                    </div>
+                </ul>
+            </div>
+            <div class="product-card">
+                <a class="product-card__image" href="{{ product.get_absolute_url }}">
+                    <img src="{{ product.get_image_s }}" alt="{{ comment.product.name }} - {{ comment.product.code }}">
+                </a>
+                <p class="product-card__info">
+                    <p class="product-card__name bold">{{ comment.product.name }} - ({{ comment.product.code }})</p>
+                    <p class="product-card__price">{{ comment.product.price_ua }} грн.</p>
+                </p>
+            </div>
+            
+            
+            
+        </div>
+      
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

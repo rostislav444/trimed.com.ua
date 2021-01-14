@@ -1,0 +1,16 @@
+<div class="page page__certificates certificates product_data_block_5">
+  <p class="title2">Сертификаты</p>
+  {% if product.certificates.all|length %}
+   
+          <ul>
+              {% for certificate in product.certificates.all %}
+                  <a href="{{ certificate.file.url }}">
+                      <li>
+                          <p>{{ certificate.name }}</p>
+                      </li>
+                  </a>
+              {% endfor %}
+          </ul>
+      
+  {% endif %}
+</div>

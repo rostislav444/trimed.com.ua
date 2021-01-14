@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заказ</title>
+</head>
+<body>
+    <h3 style="color:#0e8ab8;">Номер Вашего заказа {{ order.id }}</h3>
+    <table>
+        {% for product in order.products.all %}
+        <tr>
+            <td>
+                <p>{{ forloop.counter }}.</p>
+            </td>
+            <td>
+                <p>{{ product.product.name }} {{ product.product.code }} цена: {{ product.price_ua }} грн., кол-во: {{ product.quantity }}</p>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p>Всего: {{ order.get_total }} грн.</p>
+</body>
+</html>
+
+
+

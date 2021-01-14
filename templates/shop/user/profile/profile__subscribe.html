@@ -1,0 +1,26 @@
+{% extends './profile.html' %}
+{% load static %}
+{% block profile %}
+<div class="user__subscribe">
+    <p class="title1">Подписки на рассылку</p>
+   
+    <form class="form" action="{% url 'user:user_subscribe' %}" method="POST">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        {% for form in formset %}
+            <div class="hidden">
+                {% for field in form.hidden_fields %}
+                    {{ field }}
+                {% endfor %}
+            </div>
+            <div class="list">
+                {% for field in form.visible_fields %}
+                    {{ field }}
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit">Обновить</button>
+    </form>
+   
+</div>
+{% endblock %}

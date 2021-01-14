@@ -1,0 +1,119 @@
+table, th, td {
+    border: 3px solid white;
+}
+
+
+
+
+
+.zui-table {
+    border: none;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: var(--h6);
+}   
+.zui-table td {
+    position: relative;
+    border-radius: 8px;
+}
+.zui-table tr:hover td {
+    background-color: var(--clr-1);
+}
+.zui-table tr:hover td,
+.zui-table tr:hover td * {
+    color: white !important;
+}
+
+.zui-table tr.image td {
+    position: relative;
+    width: 280px;
+    min-width: 280px;
+    height: 280px;
+    min-height: 280px;
+   
+}
+.zui-table tr.image td.zui-sticky-col {
+    min-width: auto;
+    width: auto;
+    position: absolute;
+    background-color: unset;
+}
+
+.zui-table tr.image img {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+}
+.zui-table td {
+    background-color: var(--grey-light);
+    padding: 12px;
+    white-space: nowrap;
+}
+.zui-table tr.price td {
+    font-weight: 600;
+    color: var(--clr-2);
+}
+.zui-table tr.price td:first-child {
+    color: unset;
+}
+.zui-table tr.image td {
+    padding: 0;
+}
+
+.zui-wrapper {
+    position: relative;
+}
+.zui-scroller {
+    overflow-x: auto;
+    overflow-y: visible;
+}
+
+.zui-table tr.remove td {
+    background-color: transparent;
+    padding: 0;
+    color: black !important;
+}
+.zui-table tr.remove button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 12px;
+    background-color: tomato;
+    font-weight: 600;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.zui-table .zui-sticky-col {
+    min-width: 180px;
+    width: 180px;
+    background-color: var(--clr-1-50);
+    font-weight: 600;
+    padding: 12px !important;
+}
+
+@media(min-width: 640px) {
+    .zui-scroller {
+        margin-left: 212px;
+      
+        padding-bottom: 5px;
+        width: calc(100% - 200px );
+        border-left: 0px solid transparent;
+    }
+    .zui-table .zui-sticky-col {
+        left: 0;
+        position: absolute;
+        top: auto;
+    }
+}
+
+.comparison a.clear {
+    position: relative;
+    display: block;
+    text-decoration: underline;
+    margin-top: 32px;
+    font-size: var(--h4);
+}   

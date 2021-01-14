@@ -1,0 +1,165 @@
+{% load i18n %}{% load compress %}{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title property="og:title">
+        TRIMED | {% block meta_title %}Интерент магазин медицинских товаров{% endblock %}
+    </title>
+    <meta name="description" property="og:description" content="{% block meta_description %}{% trans 'Интерент магазин медицинских товаров' %}{% endblock %}">
+    <meta name="author"     content="trimed.com.ua" />
+    <meta name="copyright"  content="{% trans 'Сайт компании TRIMED' %}" />
+    <meta name="referrer"   content="origin">
+    <!-- OPENGRAPH -->
+    <meta property="og:locale"        content="ru_UA" />
+    <meta property="og:site_name"     content="trimed.com.ua" />
+    <meta property="og:type"          content="shop"/>
+    <meta property="og:url"           content="https://trimed.com.ua{{ request.path }}" />
+    {% block og_image %}
+        <meta property="og:image"     content="https://trimed.com.ua{% static 'img/main_banner.jpg' %}" />
+        <meta property="og:image:url" content="https://trimed.com.ua{% static 'img/main_banner.jpg' %}" />
+    {% endblock %}
+
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    {% compress css file css %}
+    <link rel="stylesheet" href="{% static 'css/core/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop/core.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop/ui/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop/ui/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop/ui/colors.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop/ui/breadcrumbs.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop/ui/elements.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop/ui/richtext.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop/search/search__popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop/catalogue/catalogue__product.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/mobilemenu/dist/zeynep.css' %}"/>
+    <link rel="stylesheet" href="{% static 'lib/mobilemenu/css/base.css' %}">
+
+    {% block links %}{% endblock %}
+    {% endcompress %}
+</head>
+<body>
+    {% include 'shop/header.html' %}
+    {% include 'shop/heder__menu-mobile.html' %}
+    {% include 'shop/search/search__popup.html' %}
+    <main>{% block content %}{% endblock %}</main>
+    <!-- CART -->
+    {% include 'shop/cart/cart.html' %}
+    <!-- WISHLIST -->
+    {% include 'shop/additions/whishlist/wishlist.html' %}
+    <!-- COMPARE -->
+    <!-- WATCHLIST -->
+    <div class="watchlist_wrapper products_slider content">
+        <div class="watchlist">
+            <div class="heading">
+                <p class="hdng">{% trans 'Просмотренные товары' %}</p>
+                <div class="navigation">
+                    <div class="watchlist-button-prev nav-btn">
+                        <img src="{% static 'img/icons/arrow-white-left.png' %}" alt="<">
+                    </div>
+                    <div class="watchlist-button-next nav-btn">
+                        <img src="{% static 'img/icons/arrow-white-right.png' %}" alt=">">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="watchlist swiper-container">
+            <div class="swiper-wrapper watchlist_products products_slider_list">
+               <!-- PRODUCTS LIST INSERT -->
+            </div>
+            <div class="swiper-pagination"></div>
+           
+        </div>
+    </div>
+    <div class="popupouter"></div>
+    {% block last %}{% endblock %}
+    {% include 'shop/footer.html' %}
+    {% csrf_token %}
+    <!-- JS -->
+    <script>
+       
+        const userAuthenticated = {% if request.user.is_authenticated %}true{% else %}false{% endif %}
+        const cartUrls = {
+            home : "{% url 'shop:home' %}",
+            cart_add :    "{% url 'cart:add' %}",
+            cart_remove : "{% url 'cart:remove' %}",
+            cart_clear :  "{% url 'cart:clear' %}",
+            search :      "{% url 'search:search' %}",
+        }
+        const wishlist_url = "{% url 'user:wishlist' %}"
+        const watchlist_url = "{% url 'shop:watchlist' %}"
+        const csrf = document.querySelector('input[name="csrfmiddlewaretoken"]').value
+        const curentPage = "{{ request.path | urlencode }}"
+        const body = document.querySelector('body')
+        const cart = document.querySelectorAll('.cart')
+        const side_cart = document.querySelector('.side_cart')
+        const side_cart_products = document.querySelectorAll('.side_cart_products')
+        const wishlist = document.querySelector('.wishlist')
+        const popupouter = document.querySelector('.popupouter')
+        
+
+        function popupOpen(popup) {
+            body.style.overflow = 'hidden'
+            popupouter.classList.add('active')
+            popup.classList.add('active')
+        }
+        function popupClose() {
+            body.style.overflow = 'auto'
+            popupouter.classList.remove('active')
+            for (let popup of document.querySelectorAll('.popup.active')) {
+                popup.classList.remove('active')
+            }
+           
+        }
+        popupouter.onclick = () => {
+            popupClose()
+        }
+        // CART
+        function openCart() {
+            popupOpen(side_cart)
+            side_cart.classList.add('active')
+        }
+        function closeCart() {
+            popupClose()
+        }
+        for (let c of cart) {
+            c.onclick = () => openCart()
+        }
+       
+        // WISHLIST
+        function OpenWishlist() {
+            popupOpen(side_wishlist)
+            side_wishlist.classList.add('active')
+        }
+        
+        wishlist.onclick = () => OpenWishlist()
+        // CHANGE LAMGUAGE
+        for (let language of document.querySelectorAll('select[name="language"]')) {
+            language.onchange = () => {
+                window.location.href =  language.value
+            }
+        }
+    </script>
+    <script src="{% static 'lib/xhr.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="{% static 'lib/mobilemenu/dist/zeynep.min.js' %}"></script>
+    <script async src="{% static 'lib/form_serialize.js' %}"></script>
+    <script async src="{% static 'js/shop/cart.js' %}"></script>
+    <script async src="{% static 'js/shop/counter.js' %}"></script>
+    <script src="{% static 'js/shop/wishlist.js' %}"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="{% static 'js/mobilemenu.js' %}"></script>
+    
+    {% block js %}{% endblock %}
+    <!-- WATCHLIST -->
+    <script async src="{% static 'js/shop/watchlist.js' %}"></script>
+    <!-- SEARCH -->
+    <script async src="{% static 'js/shop/search.js' %}"></script>
+
+</body>
+</html>

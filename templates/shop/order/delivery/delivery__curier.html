@@ -1,0 +1,54 @@
+<div class="curier delivery__type fields">
+    
+    {% if user.is_authenticated and user.adress.all|length %}
+        <div>
+            <label for="">Адрес</label>
+            <select name="adress" class="user_chosen_adress">
+                {% for adress in user.adress.all %}
+                    {% if user.adress_chosen.adress.pk == adress.pk %}
+                        <option value="{{ adress.pk }}" selected>{{ adress }}  </option>
+                    {% else %}
+                        <option value="{{ adress.pk }}">{{ adress }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+    {% endif %}
+    <div>
+        <label for="">Город</label>
+        <p>
+            <input type="text" name="city" value="{% if user.adress_chosen %}{{ user.adress_chosen.adress.city }}{% endif %}">
+        </p>
+    </div>
+    <div>
+        <label for="">Улица *</label>
+        <p>
+            <input type="text" name="street" value="{% if user.adress_chosen %}{{ user.adress_chosen.adress.street }}{% endif %}" required>
+        </p>
+    </div>
+    <div>
+        <label for="">Номер дома *</label>
+        <p>
+            <input type="text" name="house" value="{% if user.adress_chosen %}{{ user.adress_chosen.adress.house }}{% endif %}" required>
+        </p>
+    </div>
+    <div>
+        <label for="">Квартира / офис</label>
+        <p>
+            <input type="text" name="appartment" value="{% if user.adress_chosen %}{{ user.adress_chosen.adress.appartment }}{% endif %}">
+        </p>
+    </div>
+    <div>
+        <label>Способ оплаты</label>
+        <div class="label_radios">
+            <input type="radio" name="pay_type" value="cash" id="curier__cash" checked>
+            <input type="radio" name="pay_type" value="card" id="curier__card">
+            <label for="curier__cash">
+                Наличными
+            </label>
+            <label for="curier__card">
+                Оплатить картой
+            </label>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.25;
+    font-weight: 500;
+    font-size: var(--h5);
+    /* background-color: rgb(250, 250, 250) */
+}
+main {
+    min-height: 50vh;
+    margin-bottom: 48px;
+}
+.content {
+    position: relative;
+    display: block;
+    width: calc(100% - 64px);
+    height: auto;
+    left: auto;
+    right: auto;
+    margin: 0 auto;
+    max-width: 1640px;
+}
+
+.watchlist_wrapper {
+    position: relative;
+    height: auto;
+    display: none;
+    overflow: hidden;
+    margin-top: 64px;
+    margin-bottom: 32px;
+}
+.seo_text {
+    background-color: var(--clr-1-25);
+    padding: 64px 0;
+}
+.seo_text .title1 {
+    font-weight: 600;
+}
+.seo_text .content {
+    max-height: 480px;
+    overflow-y: auto;
+}
+
+@media(max-width: 960px) {
+    .content {
+        width: calc(100% - 32px);
+    }
+}

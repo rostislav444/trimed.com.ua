@@ -1,0 +1,38 @@
+{% load static %}<div class="catalogue__product">
+    <div class="image">
+        <a href="{{ product.product.get_absolute_url }}">
+            <img src="{{ product.get_image }}" alt="">
+        </a>
+    </div>
+    <div class="info">
+        <p class="name">{{ product.name }}</p>
+        <div class="shop">
+            <div class="price">
+                {% if product.get_price_old_ua > product.get_price_ua %}
+                    <p class="old_price">{{ product.get_price_old_ua }} грн.</p>
+                {% endif %}
+                <p class="current_price">{{ product.get_price_ua }} грн.</p>
+            </div>
+          
+            <div class="actions">
+                <button class="add_to_cart">Купить</button>
+                <div class="buttons">
+                    <form action="{% url 'user:wishlist_remove' %}" method="POST" class="remove_from_wishlist">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <button class="action">
+                            <img src="{% static 'img/icons/heart-red.png' %}" alt="like">
+                        </button>
+                    </form>
+                    <form action="{% url 'shop:comparison-add' %}" method="POST" class="add_to_comparison">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <button class="action"><img src="{% static 'img/icons/compare-grey.png' %}" alt=""></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

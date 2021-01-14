@@ -1,0 +1,68 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block links %}
+   <link rel="stylesheet" href="{% static 'css/shop/ui/forms.css' %}">
+   <link rel="stylesheet" href="{% static 'css/shop/product/product.css' %}">
+   <link rel="stylesheet" href="{% static 'css/shop/product/product__galery.css' %}">
+   <link rel="stylesheet" href="{% static 'css/shop/product/product__descriptions.css' %}">
+   <link rel="stylesheet" href="{% static 'css/shop/product/product__comments.css' %}">
+   <link rel="stylesheet" href="{% static 'lib/swiper/swiper.min.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        {% include 'shop/product/components/breadcrumbs.html' %}
+    </div>
+    
+    <div class="product content">
+        <div class="page page_comments page_comments_reply">
+            <div class="reviews">
+                <a class="back_to_product" href="{{ comment.product.get_absolute_url }}">Назад к товару</a>
+                <p class="title2">Написать ответ на вопрос</p>
+                <ul class="product_reviews">
+                    {% include 'shop/product/components/question.html' %}
+                    <div class="add_review">
+                        <form action="{% url 'shop:question_reply' slug=question.product.slug product_id=question.product.id question_id=question.pk %}" method="POST" class="form">
+                            {% csrf_token %}
+                            <div class="fields">
+                                <textarea name="text" id="" cols="30" rows="10" placeholder="Ваш ответ" required></textarea>
+                            </div>
+                            <button type="submit">Отправить ответ</button>
+                        </form>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

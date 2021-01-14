@@ -1,0 +1,139 @@
+{% extends './profile.html' %}
+{% load static %}
+{% block profile %}
+<div class="personal__info forms">
+    <p class="title1">Личные данные</p>
+    <ul>
+        <!-- MAIN DATA -->
+        <li class="block user__personal-info">
+            <input class="edit" type="checkbox" id="user__personal-info_edit">
+            <div class="heading">
+                <p class="title2">Личные данные</p>
+                <label for="user__personal-info_edit">
+                    <img src="{% static 'img/icons/edit.png' %}" alt="">
+                    <span class="unchecked">Редактировать</span>
+                    <span class="checked">Отменить</span>
+                </label>
+            </div>
+            <form class="form" action="{% url 'user:user_data'%}?form=main" method="POST">
+                {% csrf_token %}
+                <div class="fields">
+                    {% for field in forms.main %}
+                        <div>
+                            {{ field.label_tag }}
+                            {{ field.errors }}
+                            <p>{{ field }}</p>{{ field.widget.attrs.type }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="submit">Обновить</button>
+            </form>
+        </li>
+        <!-- CONTACTS -->
+        <li class="block user__contacts">
+            <input class="edit" type="checkbox" id="user__contacts_edit">
+            <div class="heading">
+                <p class="title2">Контакты</p>
+                <label for="user__contacts_edit">
+                    <img src="{% static 'img/icons/edit.png' %}" alt="">
+                    <span class="unchecked">Редактировать</span>
+                    <span class="checked">Отменить</span>
+                </label>
+            </div>
+            <form class="form" action="{% url 'user:user_data'%}?form=contacts" method="POST">
+                {% csrf_token %}
+                <div class="fields">
+                    {% for field in forms.contacts %}
+                        <div>
+                            {{ field.label_tag }}
+                            {{ field.errors }}
+                            <p>{{ field }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="submit">Обновить</button>
+            </form>
+        </li>
+        <!-- ADRESS -->
+        <li class="block delivery_adress">
+            <input class="edit" type="checkbox" id="user__adress_edit">
+            <div class="heading">
+                <p class="title2">Адреса доставки</p>
+                <label for="user__adress_edit">
+                    <img src="{% static 'img/icons/edit.png' %}" alt="">
+                    <span class="unchecked">Редактировать</span>
+                    <span class="checked">Отменить</span>
+                </label>
+            </div>
+            <form action="{% url 'user:user_data'%}?form=adress_chosen" method="POST" class="form select_adress">
+                {% csrf_token %}
+                <!-- MANAGEMENT FORM -->
+                {{ forms.adress_chosen.management_form }}
+                <!-- END MANAGEMENT FORM -->
+                {% for form in forms.adress_chosen %}
+                    <div class="hidden">
+                        {% for field in form.hidden_fields %}
+                            <div>
+                                {{ field.label_tag }}
+                                {{ field.errors }}
+                                <p>{{ field }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="fields">
+                        <div>
+                            {{ form.adress.field.label_tag }}
+                            {{ form.adress.errors }}
+                            <p>{{ form.adress }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+                <button type="submit">Обновить</button>
+            </form>
+            
+            <form action="{% url 'user:user_data'%}?form=adress" class="form formset" method="POST">
+                {% csrf_token %}
+                <!-- MANAGEMENT FORM -->
+                {{ forms.adress.management_form }}
+                 <!-- END MANAGEMENT FORM -->
+                {% for form in forms.adress %}
+                    <div class="{% if not form.initial.id %}empty{% endif %}">
+                        <p class="title">
+                            {% if form.initial.id %}{{ forloop.counter }}. {{ form.instance }}{% else %}Добавить ардрес{% endif %}
+                        </p>
+                        <div class="hidden">
+                            {% for field in form.hidden_fields %}{{ field }}{% endfor %}
+                        </div>
+                        <div class="fields">
+                            {% for field in form.visible_fields %}
+                                {% if field.name == 'DELETE' %}
+                                    {% if form.initial.id %}
+                                        <div class="{{ field.name }}">
+                                            {{ field.label_tag }}
+                                            {{ field.errors }}
+                                            <p>{{ field }}</p>
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                    <div class="{{ field.name }}">
+                                        {{ field.label_tag }}
+                                        {{ field.errors }}
+                                        <p>{{ field }}</p>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                   
+                {% endfor %}
+                <div>
+                    <button type="submit">Обновить</button>
+                </div>
+                
+            </form>
+        </li>
+        <a href="{% url 'user:user_password_change' %}">Изменить пароль</a>
+    </ul>
+</div>
+{% endblock %}

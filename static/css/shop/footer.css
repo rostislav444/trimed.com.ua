@@ -1,0 +1,66 @@
+footer {
+    min-height: 400px;
+    background-color: var(--grey-50);
+    margin-top: 48px;
+}
+footer .content {
+    display: grid;
+    grid-gap: 24px;
+    grid-template-columns: 1fr 1fr;
+    padding: 48px 0;
+}
+footer .content .about {
+    position: relative;
+    display: grid;
+    grid-gap: 32px;
+}
+footer .content .about .logo img {
+    width: 100%;
+    max-width: 200px;
+}
+footer .content .about .contacts ul {
+    display: grid;
+    grid-gap: 24px;
+}
+footer .content .about .contacts ul li {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+footer .content .about .contacts ul li img {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    object-position: center;
+    margin-right: 24px;
+}
+footer .content .pages {
+    padding-top: 20px;
+}
+footer .content .pages > ul {
+    display: grid;
+    grid-gap: 32px;
+    grid-template-columns: repeat(2, 1fr);
+}
+footer .content .pages ul > li > span {
+    font-size: var(--h4);
+    font-weight: 600;
+   
+}
+footer .content .pages ul > li > ul {
+    display: grid;
+    grid-gap: 12px;
+    margin-top: 24px;
+
+}
+@media(max-width: 960px) {
+    footer .content {
+        grid-template-columns: 1fr;
+    }
+}
+@media(max-width: 640px) {
+    footer .content .pages > ul {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
